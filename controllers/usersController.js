@@ -52,7 +52,7 @@ const updateUser = async (req, res, next) => {
   // Check if password is present in the request body
   // If it is, hash it and set the new hashed password
   // If not, return the same hashed password that was saved in the database
-  const updatedPassword = password ? await bcrypt.hash(password, 10) : password;
+  const updatedPassword = password ? await bcrypt.hash(password, 10) : "";
 
   try {
     // Check if user with the given id exists
