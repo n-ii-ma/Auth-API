@@ -5,4 +5,11 @@ const invalidIdError = (id, next) => {
   next(error);
 };
 
-module.exports = { invalidIdError };
+// UNIQUE constraint violation error
+const uniqueConstraintError = (next) => {
+  const error = new Error("Email Already Exists!");
+  error.status = 400;
+  next(error);
+};
+
+module.exports = { invalidIdError, uniqueConstraintError };
