@@ -15,4 +15,13 @@ const updateUserById =
 // Since COALESCE returns the first non-null value, it'll skip the null value and returns the same value as before
 // If the result of NULLIF isn't null, COALESCE will return that new expression
 
-module.exports = { selectUsers, selectUserById, insertUser, updateUserById };
+// DELETE a user by id
+const deleteUserById = "DELETE FROM users WHERE id = $1";
+
+module.exports = {
+  selectUsers,
+  selectUserById,
+  insertUser,
+  updateUserById,
+  deleteUserById,
+};

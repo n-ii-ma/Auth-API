@@ -9,6 +9,7 @@ const {
   selectUsers,
   selectUserById,
   updateUserById,
+  deleteUserById,
 } = require("../db/queries");
 
 // Error Handlers
@@ -55,8 +56,8 @@ const updateUser = async (req, res, next) => {
 
   try {
     // Check if user with the given id exists
-    const getUserById = await db.query(selectUserById, [id]);
-    if (!getUserById.rows.length) {
+    const findUserById = await db.query(selectUserById, [id]);
+    if (!findUserById.rows.length) {
       invalidIdError(id, next);
     } else {
       const updatedUser = await db.query(updateUserById, [
@@ -80,4 +81,22 @@ const updateUser = async (req, res, next) => {
   }
 };
 
-module.exports = { getUsers, getUser, updateUser };
+// Delete user
+const deleteUser = async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    // Check if user with the given id exists
+    const findUserById = await db.query(selectUserById, [id]);
+    if (!findUserById.rows.length) {
+      invalidIdError(id, next);
+    } else {
+      await db.query(deleteUserById, [id]);
+      res.status(200).json({ message: "User Deleted Successfully" });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { getUsers, getUser, updateUser, deleteUser };

@@ -6,6 +6,7 @@ const {
   getUsers,
   getUser,
   updateUser,
+  deleteUser,
 } = require("../../controllers/usersController");
 
 // Validation
@@ -19,5 +20,8 @@ usersRouter.get("/:id", getUser);
 
 // UPDATE user
 usersRouter.put("/:id", validateUpdate, updateUser);
+
+// DELETE user
+usersRouter.delete("/:id", deleteUser);
 
 module.exports = usersRouter;
