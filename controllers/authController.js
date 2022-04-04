@@ -33,7 +33,7 @@ const register = async (req, res, next) => {
 
     res
       .status(201)
-      .json({ message: "User Created Successfully", newUser: newUser.rows[0] });
+      .json({ message: "User Created Successfully", user: newUser.rows[0] });
   } catch (err) {
     // If UNIQUE constraint is violated
     if (err.code == "23505") {

@@ -16,6 +16,7 @@ const customValidationError = (req, res, next) => {
   }
 };
 
+// Registration validation
 const validateRegistration = [
   body("name")
     .exists({ checkFalsy: true })
@@ -56,4 +57,39 @@ const validateRegistration = [
   customValidationError,
 ];
 
-module.exports = validateRegistration;
+// Update validation
+const validateUpdate = [
+  body("name")
+    .optional({ nullable: true })
+    .isLength({ max: 255 })
+    .withMessage("Name Must Be Less than 255 Characters Long!")
+    .bail()
+    .trim()
+    .escape(),
+  body("email")
+    .optional({ nullable: true })
+    .isEmail()
+    .withMessage("Email Must Be a Valid Email!")
+    .bail()
+    .isLength({ min: 5, max: 255 })
+    .withMessage("Email Must Be Between 5 to 255 Characters Long!")
+    .bail()
+    .normalizeEmail()
+    .trim()
+    .escape(),
+  body("password")
+    .optional({ nullable: true })
+    .isLength({ min: 8, max: 255 })
+    .withMessage("Password Must Be Between 8 to 255 Characters Long!")
+    .bail()
+    .matches(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,255}$/)
+    .withMessage(
+      "Password Must Contain at least One Number, One Lowercase, and One Uppercase Character"
+    )
+    .bail()
+    .trim()
+    .escape(),
+  customValidationError,
+];
+
+module.exports = { validateRegistration, validateUpdate };

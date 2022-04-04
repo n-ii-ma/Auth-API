@@ -5,7 +5,7 @@ const authRouter = express.Router();
 const { register } = require("../../controllers/authController");
 
 // Validation
-const validateRegistration = require("../../helpers/validator");
+const { validateRegistration } = require("../../helpers/validator");
 
 // POST new user
 authRouter.post("/", validateRegistration, register);
