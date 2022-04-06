@@ -92,16 +92,21 @@ const deleteUser = async (req, res, next) => {
       invalidIdError(next);
     } else {
       await db.query(deleteUserById, [id]);
-      // Log out the deleted user and delete its session and clear its cookie
-      req.logout();
-      req.session.destroy((err) => {
-        if (err) {
-          next(err);
-        } else {
-          res.clearCookie("connect.sid");
-          res.status(200).json({ message: "User Deleted Successfully" });
-        }
-      });
+      // If the user is Admin, don't log out or delete session after user deletion
+      if (req.user.role === "ADMIN") {
+        res.status(200).json({ message: "User Deleted Successfully" });
+      } else {
+        // If the user is not Admin, log out the deleted user and delete its session and clear its cookie
+        req.logout();
+        req.session.destroy((err) => {
+          if (err) {
+            next(err);
+          } else {
+            res.clearCookie("connect.sid");
+            res.status(200).json({ message: "User Deleted Successfully" });
+          }
+        });
+      }
     }
   } catch (err) {
     next(err);
