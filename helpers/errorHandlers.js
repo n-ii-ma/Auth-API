@@ -1,6 +1,6 @@
 // Invalid ID error
-const invalidIdError = (id, next) => {
-  const error = new Error(`User with ID of ${id} Not Found!`);
+const invalidIdError = (next) => {
+  const error = new Error(`User Not Found!`);
   error.status = 404;
   next(error);
 };

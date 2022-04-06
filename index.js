@@ -30,6 +30,13 @@ app.use(express.urlencoded({ extended: true }));
 const morgan = require("morgan");
 app.use(morgan("dev"));
 
+// Passport
+const passport = require("passport");
+const initialize = require("./config/passport");
+
+initialize(passport);
+app.use(passport.initialize());
+
 // Rate Limiter
 const rateLimit = require("express-rate-limit");
 const limiter = rateLimit({

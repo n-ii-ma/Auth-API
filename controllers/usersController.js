@@ -35,7 +35,7 @@ const getUser = async (req, res, next) => {
   try {
     const getUserById = await db.query(selectUserById, [id]);
     if (!getUserById.rows.length) {
-      invalidIdError(id, next);
+      invalidIdError(next);
     } else {
       res.status(200).json(getUserById.rows[0]);
     }
@@ -58,7 +58,7 @@ const updateUser = async (req, res, next) => {
     // Check if user with the given id exists
     const findUserById = await db.query(selectUserById, [id]);
     if (!findUserById.rows.length) {
-      invalidIdError(id, next);
+      invalidIdError(next);
     } else {
       const updatedUser = await db.query(updateUserById, [
         name,
@@ -89,7 +89,7 @@ const deleteUser = async (req, res, next) => {
     // Check if user with the given id exists
     const findUserById = await db.query(selectUserById, [id]);
     if (!findUserById.rows.length) {
-      invalidIdError(id, next);
+      invalidIdError(next);
     } else {
       await db.query(deleteUserById, [id]);
       res.status(200).json({ message: "User Deleted Successfully" });

@@ -18,10 +18,14 @@ const updateUserById =
 // DELETE a user by id
 const deleteUserById = "DELETE FROM users WHERE id = $1";
 
+// SELECT a user by email
+const selectUserByEmail = "SELECT * FROM users WHERE email = $1";
+
 module.exports = {
   selectUsers,
   selectUserById,
   insertUser,
   updateUserById,
   deleteUserById,
+  selectUserByEmail,
 };
