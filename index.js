@@ -30,12 +30,48 @@ app.use(express.urlencoded({ extended: true }));
 const morgan = require("morgan");
 app.use(morgan("dev"));
 
+// Trust proxy
+app.set("trust proxy", 1);
+
+// Express Session
+const session = require("express-session");
+const pgSession = require("connect-pg-simple")(session);
+const db = require("./db/index");
+
+app.use(
+  session({
+    secret: process.env.SECRET,
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      maxAge: 3600000, // 1 hour
+      secure: isProduction ? true : false,
+      sameSite: isProduction ? "none" : "lax",
+    },
+    store: new pgSession({
+      pool: db,
+      createTableIfMissing: true,
+    }),
+  })
+);
+
+// CSRF
+/* const csurf = require("csurf");
+app.use(csurf());
+app.use((req, res, next) => {
+  const csrfToken = req.csrfToken();
+  res.cookie("XSRF-TOKEN", csrfToken);
+  res.locals.csrfToken = csrfToken;
+  next();
+}); */
+
 // Passport
 const passport = require("passport");
 const initialize = require("./config/passport");
 
 initialize(passport);
 app.use(passport.initialize());
+app.use(passport.session());
 
 // Rate Limiter
 const rateLimit = require("express-rate-limit");

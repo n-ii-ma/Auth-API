@@ -10,6 +10,9 @@ const { uniqueConstraintError } = require("../helpers/errorHandlers");
 // UUID
 const { v4: uuidv4 } = require("uuid");
 
+// Passport
+const passport = require("passport");
+
 // Bcrypt
 const bcrypt = require("bcrypt");
 
@@ -44,4 +47,36 @@ const register = async (req, res, next) => {
   }
 };
 
-module.exports = { register };
+// Login
+const login = (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      next(err);
+    }
+    // If no user is found
+    if (!user) {
+      res.status(401).json(info);
+    } else {
+      req.login(user, (err) => {
+        next(err);
+        res.status(200).json({ message: "Login Successful" });
+      });
+    }
+  })(req, res, next);
+};
+
+// Logout
+const logout = (req, res, next) => {
+  req.logout();
+  // Delete session and clear cookie
+  req.session.destroy((err) => {
+    if (err) {
+      next(err);
+    } else {
+      res.clearCookie("connect.sid");
+      res.status(200).json({ message: "Logout Successful" });
+    }
+  });
+};
+
+module.exports = { register, login, logout };

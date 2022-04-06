@@ -5,7 +5,7 @@ const authRouter = express.Router();
 const passport = require("passport");
 
 // Controller callbacks
-const { register } = require("../../controllers/authController");
+const { register, login, logout } = require("../../controllers/authController");
 
 // Validation
 const { validateRegistration } = require("../../helpers/validator");
@@ -14,6 +14,9 @@ const { validateRegistration } = require("../../helpers/validator");
 authRouter.post("/register", validateRegistration, register);
 
 // Login
-authRouter.post("/login", passport.authenticate("local"));
+authRouter.post("/login", login);
+
+// Logout
+authRouter.post("/logout", logout);
 
 module.exports = authRouter;

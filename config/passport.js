@@ -21,9 +21,9 @@ const initialize = (passport) => {
       const matched = await bcrypt.compare(password, user.password);
 
       if (!matched) {
-        return done(null, false, { message: "Wrong Password!" });
+        return done(null, false, { message: "Password Incorrect!" });
       } else {
-        return done(null, user, { message: "Login Successful!" });
+        return done(null, user);
       }
     } catch (err) {
       return done(err);
