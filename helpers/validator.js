@@ -49,7 +49,7 @@ const validateRegistration = [
     .bail()
     .matches(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,255}$/)
     .withMessage(
-      "Password Must Contain at least One Number, One Lowercase, and One Uppercase Character"
+      "Password Must Contain at least One Number, One Lowercase, and One Uppercase Character!"
     )
     .bail()
     .trim()
@@ -84,7 +84,7 @@ const validateUpdate = [
     .bail()
     .matches(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,255}$/)
     .withMessage(
-      "Password Must Contain at least One Number, One Lowercase, and One Uppercase Character"
+      "Password Must Contain at least One Number, One Lowercase, and One Uppercase Character!"
     )
     .bail()
     .trim()

@@ -51,17 +51,27 @@ const register = async (req, res, next) => {
 const login = (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
-      next(err);
+      return next(err);
     }
     // If no user is found
     if (!user) {
-      res.status(401).json(info);
-    } else {
-      req.login(user, (err) => {
-        next(err);
-        res.status(200).json({ message: "Login Successful" });
-      });
+      return res.status(401).json(info);
     }
+    // If user is found
+    req.login(user, (err) => {
+      if (err) {
+        return next(err);
+      } else {
+        return res.status(200).json({
+          message: "Login Successful",
+          user: {
+            id: req.user.id,
+            name: req.user.name,
+            email: req.user.email,
+          },
+        });
+      }
+    });
   })(req, res, next);
 };
 

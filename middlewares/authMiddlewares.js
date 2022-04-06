@@ -1,7 +1,14 @@
 // Check if user is authenticated
 const checkAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
-    res.status(400).json({ message: "Already Logged In" });
+    res.status(400).json({
+      message: "Already Logged In!",
+      user: {
+        id: req.user.id,
+        name: req.user.name,
+        email: req.user.email,
+      },
+    });
   } else {
     next();
   }
@@ -14,7 +21,7 @@ const checkNotAuthenticated = (req, res, next) => {
   } else {
     res
       .status(401)
-      .json({ message: "Not Authorized to View or Edit the Content" });
+      .json({ message: "Not Authorized to View or Edit the Content!" });
   }
 };
 
@@ -25,7 +32,7 @@ const checkAdmin = (req, res, next) => {
   } else {
     res
       .status(401)
-      .json({ message: "Not Authorized to View or Edit the Content" });
+      .json({ message: "Not Authorized to View or Edit the Content!" });
   }
 };
 
@@ -36,7 +43,7 @@ const checkOwnerOrAdmin = (req, res, next) => {
   } else {
     res
       .status(401)
-      .json({ message: "Not Authorized to View or Edit the Content" });
+      .json({ message: "Not Authorized to View or Edit the Content!" });
   }
 };
 
