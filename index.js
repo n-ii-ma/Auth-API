@@ -24,13 +24,12 @@ app.use(compression());
 
 // Body parser
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // Logger with Morgan
 const morgan = require("morgan");
 app.use(morgan("dev"));
 
-// Trust proxy
+// Trust first proxy
 app.set("trust proxy", 1);
 
 // Express Session
@@ -41,10 +40,12 @@ const db = require("./db/index");
 app.use(
   session({
     secret: process.env.SECRET,
+    name: "pg.sessionId",
     saveUninitialized: false,
     resave: false,
     cookie: {
       maxAge: 3600000, // 1 hour
+      httpOnly: true,
       secure: isProduction ? true : false,
       sameSite: isProduction ? "none" : "lax",
     },

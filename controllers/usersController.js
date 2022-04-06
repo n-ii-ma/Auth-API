@@ -102,7 +102,7 @@ const deleteUser = async (req, res, next) => {
           if (err) {
             next(err);
           } else {
-            res.clearCookie("connect.sid");
+            res.clearCookie("pg.sessionId");
             res.status(200).json({ message: "User Deleted Successfully" });
           }
         });
