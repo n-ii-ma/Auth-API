@@ -56,16 +56,6 @@ app.use(
   })
 );
 
-// CSRF
-/* const csurf = require("csurf");
-app.use(csurf());
-app.use((req, res, next) => {
-  const csrfToken = req.csrfToken();
-  res.cookie("XSRF-TOKEN", csrfToken);
-  res.locals.csrfToken = csrfToken;
-  next();
-}); */
-
 // Passport
 const passport = require("passport");
 const initialize = require("./config/passport");
