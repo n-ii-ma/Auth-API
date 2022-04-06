@@ -49,7 +49,7 @@ const initialize = (passport) => {
       const findUser = await db.query(selectUserById, [id]);
       const user = findUser.rows[0];
       // If the already logged in user gets deleted by the admin, it won't exist in the db
-      // So deserialize it out of the session to handle the "" error
+      // So deserialize it out of the session to handle the "failed to deserialize user out of session" error
       if (!user) {
         return done(null, false);
       } else {
