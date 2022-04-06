@@ -10,13 +10,24 @@ const { register, login, logout } = require("../../controllers/authController");
 // Validation
 const { validateRegistration } = require("../../helpers/validator");
 
+// Middlewares
+const {
+  checkAuthenticated,
+  checkNotAuthenticated,
+} = require("../../middlewares/authMiddlewares");
+
 // Register new user
-authRouter.post("/register", validateRegistration, register);
+authRouter.post(
+  "/register",
+  checkAuthenticated,
+  validateRegistration,
+  register
+);
 
 // Login
-authRouter.post("/login", login);
+authRouter.post("/login", checkAuthenticated, login);
 
 // Logout
-authRouter.post("/logout", logout);
+authRouter.post("/logout", checkNotAuthenticated, logout);
 
 module.exports = authRouter;

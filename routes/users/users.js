@@ -12,16 +12,19 @@ const {
 // Validation
 const { validateUpdate } = require("../../helpers/validator");
 
+// Middleware
+const { checkNotAuthenticated } = require("../../middlewares/authMiddlewares");
+
 // GET users
-usersRouter.get("/", getUsers);
+usersRouter.get("/", checkNotAuthenticated, getUsers);
 
 // GET user
-usersRouter.get("/:id", getUser);
+usersRouter.get("/:id", checkNotAuthenticated, getUser);
 
 // UPDATE user
-usersRouter.put("/:id", validateUpdate, updateUser);
+usersRouter.put("/:id", checkNotAuthenticated, validateUpdate, updateUser);
 
 // DELETE user
-usersRouter.delete("/:id", deleteUser);
+usersRouter.delete("/:id", checkNotAuthenticated, deleteUser);
 
 module.exports = usersRouter;
