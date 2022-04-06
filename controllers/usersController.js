@@ -92,7 +92,16 @@ const deleteUser = async (req, res, next) => {
       invalidIdError(next);
     } else {
       await db.query(deleteUserById, [id]);
-      res.status(200).json({ message: "User Deleted Successfully" });
+      // Log out the deleted user and delete its session and clear its cookie
+      req.logout();
+      req.session.destroy((err) => {
+        if (err) {
+          next(err);
+        } else {
+          res.clearCookie("connect.sid");
+          res.status(200).json({ message: "User Deleted Successfully" });
+        }
+      });
     }
   } catch (err) {
     next(err);

@@ -13,18 +13,33 @@ const {
 const { validateUpdate } = require("../../helpers/validator");
 
 // Middleware
-const { checkNotAuthenticated } = require("../../middlewares/authMiddlewares");
+const {
+  checkNotAuthenticated,
+  checkAdmin,
+  checkOwnerOrAdmin,
+} = require("../../middlewares/authMiddlewares");
 
 // GET users
-usersRouter.get("/", checkNotAuthenticated, getUsers);
+usersRouter.get("/", checkNotAuthenticated, checkAdmin, getUsers);
 
 // GET user
-usersRouter.get("/:id", checkNotAuthenticated, getUser);
+usersRouter.get("/:id", checkNotAuthenticated, checkOwnerOrAdmin, getUser);
 
 // UPDATE user
-usersRouter.put("/:id", checkNotAuthenticated, validateUpdate, updateUser);
+usersRouter.put(
+  "/:id",
+  checkNotAuthenticated,
+  checkOwnerOrAdmin,
+  validateUpdate,
+  updateUser
+);
 
 // DELETE user
-usersRouter.delete("/:id", checkNotAuthenticated, deleteUser);
+usersRouter.delete(
+  "/:id",
+  checkNotAuthenticated,
+  checkOwnerOrAdmin,
+  deleteUser
+);
 
 module.exports = usersRouter;
