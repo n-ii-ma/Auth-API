@@ -69,15 +69,7 @@ paths:
               "password": "Abcdefghi1"
       responses:
         "200":
-          description: >
-            Successfully Logged in
-
-            **The session ID is returned in a cookie named `pg.sessionId`. You need to include this cookie in subsequent requests.**
-          headers:
-            Set-Cookie:
-              schema:
-                type: string
-                example: pg.sessionId=s%3AevUlEHL7sQBAtlo4rwdxXVPJUApnZ7we.xNd3FUgBGk5ZJ8tPMKMAWxX8h8sEaj%2B%2BmxtO%2Bnsm0QE; Path=/; Expires=Thu, 07 Apr 2022 07:26:12 GMT; HttpOnly; Secure; SameSite=None
+          description: Successfully Logged in
           content:
             application/json:
               examples:
