@@ -24,7 +24,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/auth"
+              $ref: "#/components/schemas/Register"
             example:
               "name": "Bruce Wayne"
               "email": "batman@gmail.com"
@@ -63,7 +63,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/auth"
+              $ref: "#/components/schemas/Login"
             example:
               "email": "batman@gmail.com"
               "password": "Abcdefghi1"
@@ -191,7 +191,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/users"
+              $ref: "#/components/schemas/Update"
             example:
               "name": "Bruce"
               "email": "darkknight@gmail.com"
@@ -251,7 +251,7 @@ paths:
         - Users
 components:
   schemas:
-    auth:
+    Register:
       type: object
       required:
         - name
@@ -270,7 +270,21 @@ components:
           type: string
           description: The password the user
           example: Abcdefghi1
-    users:
+    Login:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: The email address of the user
+          example: batman@gmail.com
+        password:
+          type: string
+          description: The password the user
+          example: Abcdefghi1
+    Update:
       type: object
       properties:
         name:
@@ -293,3 +307,8 @@ components:
       required: true
       schema:
         type: string
+tags:
+  - name: Auth
+    description: Authentication and Authorization
+  - name: Users
+    description: Users Database
