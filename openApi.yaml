@@ -1,0 +1,319 @@
+openapi: 3.0.3
+info:
+  title: Auth API
+  version: 1.0.0
+  description: >-
+    A RESTfull API Built with Express which Uses Session Authentication to
+    Perform CRUD Operations on a PostgreSQL Database.
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: https://express-auth-api-1.herokuapp.com
+  - url: http://localhost:3000
+paths:
+  /api/v1/auth/register:
+    post:
+      summary: Register a New User
+      description: >-
+        Register a new user and store their information in a PostgreSQL
+        database.
+      operationId: register
+      requestBody:
+        description: A New User
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/auth"
+            example:
+              "name": "Bruce Wayne"
+              "email": "batman@gmail.com"
+              "password": "Abcdefghi1"
+      responses:
+        "201":
+          description: Successfully Created User
+          content:
+            application/json:
+              examples:
+                user:
+                  value: |-
+                    {
+                        "message": "User Created Successfully",
+                        "user": {
+                            "id": "c77c8d1b-2e96-403f-a1b3-8ec571b53a86",
+                            "name": "Bruce Wayne",
+                            "email": "batman@gmail.com",
+                            "password": "$2b$10$ZlUipqZt5vsXAku6Rs9ByumvkSt8kW8EAf6QISi5iSDJ3c6pa8O4i",
+                            "role": "GENERAL"
+                        }
+                    }
+        "400":
+          description: Validation Error
+        "500":
+          description: Internal Server Error
+      tags:
+        - Auth
+  /api/v1/auth/login:
+    post:
+      summary: Log into an Existing Account
+      description: Log in users by sending their credentials for validation.
+      operationId: login
+      requestBody:
+        description: User Credentials
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/auth"
+            example:
+              "email": "batman@gmail.com"
+              "password": "Abcdefghi1"
+      responses:
+        "200":
+          description: >
+            Successfully Logged in
+
+            **The session ID is returned in a cookie named `pg.sessionId`. You need to include this cookie in subsequent requests.**
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: pg.sessionId=s%3AevUlEHL7sQBAtlo4rwdxXVPJUApnZ7we.xNd3FUgBGk5ZJ8tPMKMAWxX8h8sEaj%2B%2BmxtO%2Bnsm0QE; Path=/; Expires=Thu, 07 Apr 2022 07:26:12 GMT; HttpOnly; Secure; SameSite=None
+          content:
+            application/json:
+              examples:
+                user:
+                  value: |-
+                    {
+                        "message": "Login Successful",
+                        "user": {
+                            "id": "c77c8d1b-2e96-403f-a1b3-8ec571b53a86",
+                            "name": "Bruce Wayne",
+                            "email": "batman@gmail.com"
+                        }
+                    }
+        "400":
+          description: Validation Error
+        "401":
+          description: Authorization Error
+        "500":
+          description: Internal Server Error
+      tags:
+        - Auth
+  /api/v1/auth/logout:
+    post:
+      summary: Log out a Logged in User
+      description: >-
+        Log out users out of their accounts and delete their session and cookie
+        data.
+      operationId: logout
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Successfully Logged out
+          content:
+            application/json:
+              examples:
+                auth:
+                  value: |-
+                    {
+                        "message": "Logout Successful"
+                    }
+        "401":
+          description: Authorization Error
+        "500":
+          description: Internal Server Error
+      tags:
+        - Auth
+  /api/v1/users:
+    get:
+      summary: Get All of the Users' Data (ADMIN ONLY)
+      description: Retrieve all of the users' information from the database.
+      operationId: getUsers
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Successfully Retrieved Users' Data
+          content:
+            application/json:
+              examples:
+                users:
+                  value: |-
+                    [
+                    {
+                            "id": "c77c8d1b-2e96-403f-a1b3-8ec571b53a86",
+                            "name": "Bruce Wayne",
+                            "email": "batman@gmail.com",
+                            "password": "$2b$10$ZlUipqZt5vsXAku6Rs9ByumvkSt8kW8EAf6QISi5iSDJ3c6pa8O4i",
+                            "role": "GENERAL"
+                        },
+                        {
+                            "id": "45ae55ec-0839-4ebd-9afc-69c59956ccfd",
+                            "name": "Diana",
+                            "email": "wwoman@gmail.com",
+                            "password": "$2b$10$kMdxFuqHnpAaXB4WiePeFumQ0I4Mbrc4JpgZpOQ6fL.LdcygoZ5N.",
+                            "role": "GENERAL"
+                        }
+                    ]
+        "401":
+          description: Authorization Error
+        "500":
+          description: Internal Server Error
+      tags:
+        - Users
+  /api/v1/users/{id}:
+    get:
+      summary: Get a User's Data (ADMIN / OWNER)
+      description: Retrieve a user's information matching the provided ID.
+      operationId: getUser
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: "#/components/parameters/userParam"
+      responses:
+        "200":
+          description: Successfully Retrieved User's Data
+          content:
+            application/json:
+              examples:
+                user:
+                  value: |-
+                    {
+                        "id": "45ae55ec-0839-4ebd-9afc-69c59956ccfd",
+                        "name": "Diana",
+                        "email": "wwoman@gmail.com",
+                        "password": "$2b$10$kMdxFuqHnpAaXB4WiePeFumQ0I4Mbrc4JpgZpOQ6fL.LdcygoZ5N.",
+                        "role": "GENERAL"
+                    }
+        "401":
+          description: Authorization Error
+        "404":
+          description: Not Found Error
+        "500":
+          description: Internal Server Error
+      tags:
+        - Users
+    put:
+      summary: Update a User's Data (ADMIN / OWNER)
+      description: Update a user's information matching the provided ID.
+      operationId: updateUser
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: "#/components/parameters/userParam"
+      requestBody:
+        description: Update Values
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/users"
+            example:
+              "name": "Bruce"
+              "email": "darkknight@gmail.com"
+              "password": "Abcdefghi1"
+      responses:
+        "200":
+          description: Successfully Updated User's Data
+          content:
+            application/json:
+              examples:
+                user:
+                  value: |-
+                    {
+                        "message": "User Updated Successfully",
+                        "user": {
+                            "id": "c77c8d1b-2e96-403f-a1b3-8ec571b53a86",
+                            "name": "Bruce",
+                            "email": "darkknight@gmail.com",
+                            "password": "$2b$10$ZlUipqZt5vsXAku6Rs9ByumvkSt8kW8EAf6QISi5iSDJ3c6pa8O4i",
+                            "role": "GENERAL"
+                        }
+                    }
+        "400":
+          description: Validation Error
+        "401":
+          description: Authorization Error
+        "404":
+          description: Not Found Error
+        "500":
+          description: Internal Server Error
+      tags:
+        - Users
+    delete:
+      summary: Delete a User from the Database (ADMIN / OWNER)
+      description: Delete a user matching the provided ID.
+      operationId: deleteUser
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: "#/components/parameters/userParam"
+      responses:
+        "200":
+          description: Successfully Deleted User
+          content:
+            application/json:
+              examples:
+                user:
+                  value: |-
+                    {
+                        "message": "User Deleted Successfully"
+                    }
+        "401":
+          description: Authorization Error
+        "404":
+          description: Not Found Error
+        "500":
+          description: Internal Server Error
+      tags:
+        - Users
+components:
+  schemas:
+    auth:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          description: The name of the user
+          example: Bruce Wayne
+        email:
+          type: string
+          description: The email address of the user
+          example: batman@gmail.com
+        password:
+          type: string
+          description: The password the user
+          example: Abcdefghi1
+    users:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the user
+          example: Bruce
+        email:
+          type: string
+          description: The email address of the user
+          example: darkknight@gmail.com
+        password:
+          type: string
+          description: The password the user
+          example: Abcdefghi1
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: pg.sessionId
+  parameters:
+    userParam:
+      name: id
+      in: path
+      description: ID of the user
+      required: true
+      schema:
+        type: string
