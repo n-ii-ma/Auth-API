@@ -34,7 +34,7 @@ Project is created with:
 Allows clients to register and log in to retrieve the required information from the API.
 
 ## Screenshot
-![image](https://user-images.githubusercontent.com/88039431/162154086-0e6291fc-844a-455c-8658-c52095e10382.png)
+![image](https://user-images.githubusercontent.com/88039431/162160545-f397d806-d156-403a-a671-10371c0e0235.png)
 
 ## Setup
 Run ```npm run dev``` to start the server.
