@@ -1,6 +1,6 @@
 # Auth API
 
-TBA
+A RESTfull API Built with Express which Uses Session Authentication to Perform CRUD Operations on a PostgreSQL Database.
 
 ## Table of contents
 + [General Info](#general-info)
@@ -13,10 +13,12 @@ TBA
 + [Contact](#contact)
 
 ## General Info
-TBA
+This API implements session authentication with express-session and passport.js to store the session ID of users into the connect-pg-simple store.
+
+Upon authorization, users can perform CRUD operations on the PostgreSQL Database.
 
 ## Docs Address
-TBA
+https://express-auth-api-1.herokuapp.com/api-docs
 
 *Built with [Swagger](https://swagger.io/)*
 
@@ -29,17 +31,15 @@ Project is created with:
 + VSCode v1.66.0
 
 ## Features
-Allows clients register and log in to get the required information from the API.
+Allows clients to register and log in to retrieve the required information from the API.
 
 ## Screenshot
-TBA
+![image](https://user-images.githubusercontent.com/88039431/162154086-0e6291fc-844a-455c-8658-c52095e10382.png)
 
 ## Setup
 Run ```npm run dev``` to start the server.
 
 You can use [Postman](https://www.postman.com/) to view the functionality of the API.
-
-TBA
 
 ## Usage
 Useful for clients looking to experience with the functionalities of the API.
