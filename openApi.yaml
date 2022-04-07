@@ -10,7 +10,6 @@ info:
     url: https://opensource.org/licenses/MIT
 servers:
   - url: https://express-auth-api-1.herokuapp.com
-  - url: http://localhost:3000
 paths:
   /api/v1/auth/register:
     post:
@@ -107,8 +106,6 @@ paths:
         Log out users out of their accounts and delete their session and cookie
         data.
       operationId: logout
-      security:
-        - cookieAuth: []
       responses:
         "200":
           description: Successfully Logged out
@@ -131,8 +128,6 @@ paths:
       summary: Get All of the Users' Data (ADMIN ONLY)
       description: Retrieve all of the users' information from the database.
       operationId: getUsers
-      security:
-        - cookieAuth: []
       responses:
         "200":
           description: Successfully Retrieved Users' Data
@@ -168,8 +163,6 @@ paths:
       summary: Get a User's Data (ADMIN / OWNER)
       description: Retrieve a user's information matching the provided ID.
       operationId: getUser
-      security:
-        - cookieAuth: []
       parameters:
         - $ref: "#/components/parameters/userParam"
       responses:
@@ -199,8 +192,6 @@ paths:
       summary: Update a User's Data (ADMIN / OWNER)
       description: Update a user's information matching the provided ID.
       operationId: updateUser
-      security:
-        - cookieAuth: []
       parameters:
         - $ref: "#/components/parameters/userParam"
       requestBody:
@@ -245,8 +236,6 @@ paths:
       summary: Delete a User from the Database (ADMIN / OWNER)
       description: Delete a user matching the provided ID.
       operationId: deleteUser
-      security:
-        - cookieAuth: []
       parameters:
         - $ref: "#/components/parameters/userParam"
       responses:
@@ -304,11 +293,6 @@ components:
           type: string
           description: The password the user
           example: Abcdefghi1
-  securitySchemes:
-    cookieAuth:
-      type: apiKey
-      in: cookie
-      name: pg.sessionId
   parameters:
     userParam:
       name: id
