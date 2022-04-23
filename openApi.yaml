@@ -271,7 +271,7 @@ components:
           example: batman@gmail.com
         password:
           type: string
-          description: The password the user
+          description: The password of the user
           example: Abcdefghi1
     Login:
       type: object
@@ -285,7 +285,7 @@ components:
           example: batman@gmail.com
         password:
           type: string
-          description: The password the user
+          description: The password of the user
           example: Abcdefghi1
     Update:
       type: object
@@ -300,7 +300,7 @@ components:
           example: darkknight@gmail.com
         password:
           type: string
-          description: The password the user
+          description: The password of the user
           example: Abcdefghi1
   parameters:
     userParam:
