@@ -1,6 +1,6 @@
 # Auth API
 
-A RESTfull API Built with Express which Uses Session Authentication to Perform CRUD Operations on a PostgreSQL Database.
+A RESTful API Built with Express which Uses Session Authentication to Perform CRUD Operations on a PostgreSQL Database.
 
 ## Table of contents
 + [General Info](#general-info)
