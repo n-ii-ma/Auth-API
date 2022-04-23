@@ -3,7 +3,7 @@ info:
   title: Auth API
   version: 1.0.0
   description: >-
-    A RESTfull API Built with Express which Uses Session Authentication to
+    A RESTful API Built with Express which Uses Session Authentication to
     Perform CRUD Operations on a PostgreSQL Database.
   license:
     name: MIT License
